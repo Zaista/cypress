@@ -1,4 +1,1 @@
-node_modules
-docker-compose.yaml
-
-cypress/videos
+cypress-minio/credentials.json
