@@ -1,0 +1,6 @@
+FROM minio/minio
+
+ENV MINIO_ROOT_USER=local
+ENV MINIO_ROOT_PASSWORD=locallocal
+
+CMD ["server", "/data", "--console-address", ":9001"]

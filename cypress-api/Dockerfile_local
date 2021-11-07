@@ -1,0 +1,4 @@
+FROM agoldis/sorry-cypress-api
+
+ENV MONGODB_URI=mongodb://cypress-mongo-1:27017
+ENV MONGODB_DATABASE=cypress

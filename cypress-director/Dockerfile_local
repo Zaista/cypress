@@ -1,0 +1,14 @@
+FROM agoldis/sorry-cypress-director
+
+ENV DASHBOARD_URL=http://cypress-dashboard-1:8080
+ENV EXECUTION_DRIVER=../execution/mongo/driver
+ENV SCREENSHOTS_DRIVER=../screenshots/minio.driver
+ENV MONGODB_URI=mongodb://cypress-mongo-1:27017
+ENV MONGODB_DATABASE=cypress
+ENV MINIO_ACCESS_KEY=local
+ENV MINIO_SECRET_KEY=locallocal
+ENV MINIO_ENDPOINT=cypress-minio-1
+ENV MINIO_URL=http://cypress-minio-1
+ENV MINIO_PORT=9001
+ENV MINIO_USESSL=false
+ENV MINIO_BUCKET=sorrycypress

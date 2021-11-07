@@ -1,0 +1,62 @@
+version: 3.9
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - ./private/data:/data/db
+    ports:
+      - 27017:27017
+
+  minio:
+    build:
+      context: ./cypress-minio
+      dockerfile: Dockerfile_local
+    volumes:
+      - ./private/minio:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+
+  api:
+    build:
+      context: ./cypress-api
+      dockerfile: Dockerfile_local
+    ports:
+      - 4000:4000
+    depends_on:
+      - minio
+      - mongo
+
+  director:
+    build:
+      context: ./cypress-director
+      dockerfile: Dockerfile_local
+    ports:
+      - 1234:1234
+    depends_on:
+      - api
+
+  dashboard:
+    build:
+      context: ./cypress-dashboard
+      dockerfile: Dockerfile_local
+    ports:
+      - 8080:8080
+    depends_on:
+      - director
+
+  # run only once, or every time you want to remove all stored files
+  # createbuckets:
+  #   image: minio/mc
+  #   depends_on:
+  #     - minio
+  #   entrypoint: >
+  #     /bin/sh -c "
+  #     sleep 3;
+  #     /usr/bin/mc config host add myminio http://minio:9000 local locallocal;
+  #     /usr/bin/mc rm -r --dangerous --force myminio/sorrycypress;
+  #     /usr/bin/mc mb myminio/sorrycypress;
+  #     /usr/bin/mc policy set download myminio/sorrycypress;
+  #     /usr/bin/mc policy set public myminio/sorrycypress;
+  #     exit 0;
+  #     "
